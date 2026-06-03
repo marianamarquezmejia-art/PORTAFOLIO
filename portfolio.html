@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio — Leer el Territorio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --crema: #F5EFE3;
+    --arena: #DDD0B8;
+    --tierra: #A8896A;
+    --oxido: #8B4E2F;
+    --carbon: #2A2420;
+    --humo: #6B5E52;
+    --verde-seco: #5C6647;
+    --papel: #EDE5D4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--crema);
+    color: var(--carbon);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 256px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ─── NAVIGATION ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(245, 239, 227, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--arena);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--humo);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--humo);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--oxido); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--tierra);
+  }
+
+  .hero-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--carbon);
+    margin-bottom: 12px;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--oxido);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--humo);
+    letter-spacing: 0.02em;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+
+  .hero-statement {
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--carbon);
+    max-width: 400px;
+    line-height: 1.75;
+    border-left: 2px solid var(--tierra);
+    padding-left: 24px;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, var(--arena) 0%, var(--tierra) 60%, var(--oxido) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 48px;
+  }
+
+  .hero-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+
+  /* Contour lines decorative */
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(255,255,255,0.06) 28px,
+      rgba(255,255,255,0.06) 29px
+    );
+    pointer-events: none;
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 80px; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--tierra);
+  }
+
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    color: var(--carbon);
+    line-height: 1.1;
+  }
+
+  .section-title em { font-style: italic; color: var(--oxido); }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--arena);
+    margin-left: 16px;
+  }
+
+  /* ─── SOBRE MÍ ─── */
+  .about {
+    background: var(--papel);
+    border-top: 1px solid var(--arena);
+    border-bottom: 1px solid var(--arena);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--carbon);
+    margin-bottom: 20px;
+  }
+
+  .about-text p:first-child::first-letter {
+    font-size: 4em;
+    font-weight: 400;
+    float: left;
+    line-height: 0.8;
+    margin-right: 8px;
+    margin-top: 8px;
+    color: var(--oxido);
+  }
+
+  .about-aside {
+    padding-top: 12px;
+  }
+
+  .about-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    margin-bottom: 16px;
+    margin-top: 32px;
+  }
+
+  .about-label:first-child { margin-top: 0; }
+
+  .skill-list {
+    list-style: none;
+  }
+
+  .skill-list li {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--humo);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--arena);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .skill-list li::after {
+    content: '→';
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--tierra);
+  }
+
+  /* ─── PROJECT CARDS ─── */
+  .projects-grid {
+    display: grid;
+    gap: 2px;
+  }
+
+  /* DISEÑO GRÁFICO — 2 proyectos full width */
+  .project-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--carbon);
+  }
+
+  .project-card:hover .project-overlay { opacity: 1; }
+  .project-card:hover .project-image { transform: scale(1.04); }
+
+  .project-image {
+    width: 100%;
+    aspect-ratio: 16/8;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16/8;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(42,36,32,0.95) 0%, rgba(42,36,32,0.3) 60%, transparent 100%);
+    opacity: 0.7;
+    transition: opacity 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 48px 56px;
+  }
+
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    margin-bottom: 12px;
+  }
+
+  .project-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 400;
+    color: var(--crema);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .project-name em { font-style: italic; color: var(--arena); }
+
+  .project-desc {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(245,239,227,0.7);
+    max-width: 480px;
+    line-height: 1.65;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: all 0.4s 0.1s;
+  }
+
+  .project-card:hover .project-desc {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .project-arrow {
+    margin-top: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: all 0.4s 0.15s;
+  }
+
+  .project-card:hover .project-arrow {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .project-arrow::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--tierra);
+    transition: width 0.3s;
+  }
+
+  .project-card:hover .project-arrow::after { width: 48px; }
+
+  /* ARQUITECTURA — grid asimétrico */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 2px;
+    margin-top: 2px;
+  }
+
+  .arch-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--carbon);
+  }
+
+  .arch-card.wide { grid-column: span 2; }
+
+  .arch-card .project-image-placeholder {
+    aspect-ratio: unset;
+    height: 340px;
+  }
+
+  .arch-card.wide .project-image-placeholder { height: 420px; }
+
+  .arch-card .project-overlay {
+    padding: 32px 40px;
+  }
+
+  .arch-card .project-name { font-size: clamp(20px, 2.5vw, 32px); }
+
+  /* INVESTIGATIVO — special layout */
+  .research-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--carbon);
+    overflow: hidden;
+    margin-top: 2px;
+  }
+
+  .research-content {
+    padding: 72px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--carbon);
+  }
+
+  .research-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    margin-bottom: 24px;
+  }
+
+  .research-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 400;
+    color: var(--crema);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .research-title em { font-style: italic; color: var(--arena); }
+
+  .research-desc {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(245,239,227,0.65);
+    line-height: 1.75;
+    margin-bottom: 40px;
+  }
+
+  .research-products {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .research-product {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border: 1px solid rgba(168,137,106,0.25);
+    border-radius: 2px;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+
+  .research-product:hover {
+    border-color: var(--tierra);
+    background: rgba(168,137,106,0.08);
+  }
+
+  .rp-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(168,137,106,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .rp-icon svg { width: 14px; height: 14px; stroke: var(--tierra); fill: none; stroke-width: 1.5; }
+
+  .rp-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,239,227,0.6);
+  }
+
+  .rp-name {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--crema);
+    margin-top: 2px;
+  }
+
+  .research-visual {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .research-visual-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    background: linear-gradient(135deg, #3D3028 0%, #5C4A38 40%, var(--tierra) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 40px;
+  }
+
+  .map-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,239,227,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,239,227,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* FOTOGRAFÍA & ILUSTRACIÓN */
+  .gallery-section { background: var(--papel); }
+
+  .gallery-intro {
+    max-width: 560px;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--humo);
+    line-height: 1.75;
+    margin-bottom: 56px;
+    border-left: 2px solid var(--tierra);
+    padding-left: 24px;
+  }
+
+  .gallery-masonry {
+    columns: 3;
+    column-gap: 16px;
+  }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .gallery-item:hover .gallery-caption { opacity: 1; }
+
+  .gallery-placeholder {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .gallery-item:hover .gallery-placeholder { transform: scale(1.03); }
+
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(transparent, rgba(42,36,32,0.85));
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .gallery-caption-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,239,227,0.75);
+  }
+
+  .gallery-caption-title {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--crema);
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* ─── COLOR SWATCHES for placeholders ─── */
+  .ph-1 { background: linear-gradient(135deg, #C4A882 0%, #8B6A45 100%); }
+  .ph-2 { background: linear-gradient(145deg, #4A3D32 0%, #7A5E42 60%, #A8896A 100%); }
+  .ph-3 { background: linear-gradient(120deg, #5C6647 0%, #3D4530 100%); }
+  .ph-4 { background: linear-gradient(160deg, #8B4E2F 0%, #C47A4A 100%); }
+  .ph-5 { background: linear-gradient(135deg, #2A2420 0%, #4A3D32 100%); }
+  .ph-6 { background: linear-gradient(145deg, #DDD0B8 0%, #A8896A 100%); }
+  .ph-7 { background: linear-gradient(120deg, #6B5E52 0%, #3D3028 100%); }
+  .ph-8 { background: linear-gradient(135deg, #A8896A 0%, #5C4A38 100%); }
+  .ph-9 { background: linear-gradient(145deg, #3D4530 0%, #5C6647 80%, #7A8060 100%); }
+
+  /* ─── CONTACT / FOOTER ─── */
+  .contact {
+    background: var(--carbon);
+    padding: 120px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    border: 1px solid rgba(168,137,106,0.12);
+    pointer-events: none;
+  }
+
+  .contact::after {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(168,137,106,0.08);
+    pointer-events: none;
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .contact-heading {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 400;
+    color: var(--crema);
+    line-height: 1.0;
+    margin-bottom: 24px;
+  }
+
+  .contact-heading em { font-style: italic; color: var(--tierra); }
+
+  .contact-sub {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(245,239,227,0.5);
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(168,137,106,0.2);
+    text-decoration: none;
+    transition: border-color 0.3s;
+  }
+
+  .contact-link:hover { border-color: var(--tierra); }
+
+  .contact-link:hover .cl-arrow { transform: translateX(6px); color: var(--tierra); }
+
+  .cl-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(168,137,106,0.7);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cl-value {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--crema);
+  }
+
+  .cl-arrow {
+    font-size: 20px;
+    color: rgba(245,239,227,0.3);
+    transition: transform 0.3s, color 0.3s;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .footer-bottom {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(168,137,106,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-sig {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,239,227,0.25);
+  }
+
+  .footer-concept {
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(245,239,227,0.3);
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 80px;
+    margin: 0;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--arena); }
+
+  .divider-mark {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--tierra);
+    text-transform: uppercase;
+  }
+
+  /* ─── SVG MAP PLACEHOLDER ─── */
+  .map-svg-placeholder {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    opacity: 0.25;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 20px; }
+    section { padding: 72px 32px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 100px 32px 56px; }
+    .hero-right { height: 50vw; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .arch-card.wide { grid-column: span 1; }
+    .research-card { grid-template-columns: 1fr; }
+    .research-visual-placeholder { min-height: 300px; }
+    .gallery-masonry { columns: 2; }
+    .contact-inner { grid-template-columns: 1fr; }
+    .divider { padding: 0 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  /* ─── HOVER CURSOR HINT ─── */
+  .hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tierra);
+    margin-top: 16px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Tu Nombre · Arquitectura & Diseño</span>
+  <ul class="nav-links">
+    <li><a href="#disenio">Diseño</a></li>
+    <li><a href="#arquitectura">Planimetría</a></li>
+    <li><a href="#investigacion">Investigación</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Portafolio · 2024–2025</p>
+    <h1 class="hero-name">Tu<br><em>Nombre</em></h1>
+    <p class="hero-title">Arquitectura · Diseño · Investigación territorial</p>
+    <p class="hero-statement">Todo lo que hago es una forma de leer el territorio — con planos, con imágenes, con palabras, con mapas. Distintos instrumentos, una sola mirada.</p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder ph-1" style="height:100%; position:relative;">
+      <!-- Reemplazar con una fotografía tuya o de alguno de tus proyectos -->
+      <svg class="map-svg-placeholder" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="white" stroke-width="0.5" fill="none">
+          <ellipse cx="200" cy="300" rx="180" ry="260"/>
+          <ellipse cx="200" cy="300" rx="140" ry="210"/>
+          <ellipse cx="200" cy="300" rx="100" ry="160"/>
+          <ellipse cx="200" cy="300" rx="65" ry="110"/>
+          <ellipse cx="200" cy="300" rx="35" ry="65"/>
+          <line x1="20" y1="300" x2="380" y2="300"/>
+          <line x1="200" y1="40" x2="200" y2="560"/>
+        </g>
+      </svg>
+      <p class="hero-caption">Fotografía principal o imagen conceptual del territorio</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section class="about" id="sobre-mi">
+  <div class="section-header reveal">
+    <span class="section-number">00</span>
+    <h2 class="section-title">Quien <em>escribe</em> el mapa</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Soy estudiante de arquitectura en la Universidad Pontificia Bolivariana, Medellín. Mi trabajo cruza la línea entre la técnica y el arte, entre el plano y la imagen, entre el archivo y el campo.</p>
+      <p>Lo que me interesa no es solo diseñar espacios, sino entender cómo el territorio se convierte en lugar — cómo la gente, el tiempo y la infraestructura lo cargan de sentido. Esa pregunta aparece en todos mis proyectos, cualquiera sea la disciplina.</p>
+      <p>Trabajo con cartografía, planimetría, fotografía, ilustración y diseño gráfico como si fueran el mismo oficio visto desde ángulos distintos.</p>
+    </div>
+    <div class="about-aside reveal">
+      <p class="about-label">Disciplinas</p>
+      <ul class="skill-list">
+        <li>Arquitectura y planimetría técnica</li>
+        <li>Diseño gráfico editorial</li>
+        <li>Investigación territorial</li>
+        <li>Cartografía diacrónica</li>
+        <li>Fotografía de paisaje urbano</li>
+        <li>Ilustración y comunicación visual</li>
+      </ul>
+      <p class="about-label">Herramientas</p>
+      <ul class="skill-list">
+        <li>AutoCAD · Revit · Rhino</li>
+        <li>Adobe Illustrator · Photoshop · InDesign</li>
+        <li>QGIS · ArcGIS</li>
+        <li>Registro etnográfico y archivo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DISEÑO GRÁFICO -->
+<section id="disenio" style="padding-bottom: 0;">
+  <div class="section-header reveal">
+    <span class="section-number">01</span>
+    <h2 class="section-title">Diseño <em>gráfico</em></h2>
+    <div class="section-line"></div>
+  </div>
+</section>
+
+<div class="projects-grid">
+
+  <!-- Proyecto DG 1 -->
+  <div class="project-card reveal">
+    <div class="project-image-placeholder ph-2" style="aspect-ratio: 16/8;">
+      <!-- Reemplazar con imagen del proyecto de diseño gráfico 1 -->
+      <!-- Ejemplo: <img src="proyecto-dg-1.jpg" class="project-image" alt="..."> -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Diseño gráfico · 2024 · Proyecto 01</p>
+      <h3 class="project-name">Nombre del <em>Proyecto</em></h3>
+      <p class="project-desc">Descripción breve: qué problema resolvía, qué decisiones visuales tomaste, qué aprendiste. Dos o tres líneas que revelen tu manera de pensar.</p>
+      <p class="project-arrow">Ver proyecto</p>
+    </div>
+  </div>
+
+  <!-- Proyecto DG 2 -->
+  <div class="project-card reveal">
+    <div class="project-image-placeholder ph-4" style="aspect-ratio: 16/8;">
+      <!-- Reemplazar con imagen del proyecto de diseño gráfico 2 -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Diseño gráfico · 2025 · Proyecto 02</p>
+      <h3 class="project-name">Nombre del <em>Proyecto</em></h3>
+      <p class="project-desc">Descripción breve del segundo proyecto. Qué lo hace diferente del primero, y qué tienen en común — la misma forma de mirar el mundo.</p>
+      <p class="project-arrow">Ver proyecto</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="divider" style="padding-top: 80px; padding-bottom: 0;"><div class="divider-line"></div><span class="divider-mark">planimetría</span><div class="divider-line"></div></div>
+
+<!-- ARQUITECTURA -->
+<section id="arquitectura" style="padding-top: 48px; padding-bottom: 0;">
+  <div class="section-header reveal">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Arquitectura & <em>planimetría</em></h2>
+    <div class="section-line"></div>
+  </div>
+</section>
+
+<div class="arch-grid" style="padding: 0 80px 100px; background: var(--crema);">
+
+  <!-- Proyecto Arch 1 y 2 — fila superior -->
+  <div class="arch-card reveal">
+    <div class="project-image-placeholder ph-5" style="height: 340px;">
+      <!-- Reemplazar con render/planta/corte del proyecto 1 -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Arquitectura · Taller IV · 2024</p>
+      <h3 class="project-name">Nombre del <em>Proyecto</em></h3>
+      <p class="project-desc">Programa, escala, estrategia estructural. Una línea sobre la decisión más importante.</p>
+      <p class="project-arrow">Ver proyecto</p>
+    </div>
+  </div>
+
+  <div class="arch-card reveal">
+    <div class="project-image-placeholder ph-9" style="height: 340px;">
+      <!-- Reemplazar con planos/secciones/axonometría del proyecto 2 -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Arquitectura · Taller V · 2024</p>
+      <h3 class="project-name">Nombre del <em>Proyecto</em></h3>
+      <p class="project-desc">Programa, escala, relación con el entorno. Qué pregunta del territorio intenta responder.</p>
+      <p class="project-arrow">Ver proyecto</p>
+    </div>
+  </div>
+
+  <!-- Proyecto Arch 3 — ancho completo -->
+  <div class="arch-card wide reveal">
+    <div class="project-image-placeholder ph-3" style="height: 420px;">
+      <!-- Reemplazar con planimetría general, implantación o render del proyecto más representativo -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Arquitectura · Taller VI · 2025 · Proyecto principal</p>
+      <h3 class="project-name">Nombre del <em>Proyecto Principal</em></h3>
+      <p class="project-desc">Este es tu proyecto más complejo o representativo. Describe la escala del problema, la estrategia proyectual, y cómo el lugar lo define. Dos o tres líneas que muestren madurez de pensamiento.</p>
+      <p class="project-arrow">Ver proyecto completo</p>
+    </div>
+  </div>
+
+  <!-- Proyectos Arch 4 y 5 — fila inferior -->
+  <div class="arch-card reveal">
+    <div class="project-image-placeholder ph-7" style="height: 300px;">
+      <!-- Proyecto adicional 4 -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Construcción · NSR-10 · 2024</p>
+      <h3 class="project-name">Sistema <em>constructivo</em> mixto</h3>
+      <p class="project-desc">Tapial, concreto y estructura metálica. Zona de riesgo hídrico, Antioquia.</p>
+      <p class="project-arrow">Ver detalles</p>
+    </div>
+  </div>
+
+  <div class="arch-card reveal">
+    <div class="project-image-placeholder ph-8" style="height: 300px;">
+      <!-- Proyecto adicional 5 -->
+    </div>
+    <div class="project-overlay">
+      <p class="project-tag">Análisis urbano · 2025</p>
+      <h3 class="project-name">Paisaje <em>cromático</em></h3>
+      <p class="project-desc">Lectura del territorio urbano-natural de Medellín a través de indicadores de calidad de vida y gradientes verdes.</p>
+      <p class="project-arrow">Ver análisis</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="divider" style="background: var(--crema);"><div class="divider-line"></div><span class="divider-mark">investigación</span><div class="divider-line"></div></div>
+
+<!-- INVESTIGACIÓN -->
+<section id="investigacion" style="padding: 0;">
+  <div class="research-card reveal">
+    <div class="research-content">
+      <p class="research-tag">Investigación · Historia territorial · 2024–2025</p>
+      <h3 class="research-title">El Ferrocarril de Antioquia y el <em>paisaje social</em> de Santiago y El Limón</h3>
+      <p class="research-desc">Una investigación sobre cómo la infraestructura ferroviaria configuró espacialmente dos corregimientos de Santo Domingo, Antioquia. Los campamentos de trabajo, la música de carrilera, las cantinas, los horarios del tren — todo dejó una huella en el territorio que puede leerse hoy a través de cartografía diacrónica y memoria oral.</p>
+      <div class="research-products">
+        <div class="research-product">
+          <div class="rp-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+          </div>
+          <div>
+            <p class="rp-label">Producto interactivo</p>
+            <p class="rp-name">Mapa como guía turística — recorrido ferroviario</p>
+          </div>
+        </div>
+        <div class="research-product">
+          <div class="rp-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M7 21h10M12 17v4"/></svg>
+          </div>
+          <div>
+            <p class="rp-label">Producto editorial</p>
+            <p class="rp-name">Serie de postales ilustradas del paisaje ferroviario</p>
+          </div>
+        </div>
+        <div class="research-product">
+          <div class="rp-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <div>
+            <p class="rp-label">Documento</p>
+            <p class="rp-name">Mapas emocionales y cartografía diacrónica</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="research-visual">
+      <div class="research-visual-placeholder">
+        <div class="map-grid-overlay"></div>
+        <!-- Reemplazar con imagen del mapa turístico o de las postales -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.15;" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="white" fill="none" stroke-width="0.8">
+            <path d="M50,100 Q150,80 200,150 Q250,220 320,200 Q390,180 430,250 Q470,320 400,380 Q330,440 280,420 Q230,400 180,450 Q130,500 80,480"/>
+            <circle cx="200" cy="150" r="8" fill="white" opacity="0.6"/>
+            <circle cx="320" cy="200" r="8" fill="white" opacity="0.6"/>
+            <circle cx="400" cy="380" r="8" fill="white" opacity="0.6"/>
+            <line x1="100" y1="50" x2="100" y2="550" stroke-dasharray="4,8" opacity="0.3"/>
+            <line x1="200" y1="50" x2="200" y2="550" stroke-dasharray="4,8" opacity="0.3"/>
+            <line x1="300" y1="50" x2="300" y2="550" stroke-dasharray="4,8" opacity="0.3"/>
+            <line x1="400" y1="50" x2="400" y2="550" stroke-dasharray="4,8" opacity="0.3"/>
+          </g>
+        </svg>
+        <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;position:relative;z-index:1;">Imagen del mapa turístico o postal ilustrada</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="padding-top: 80px;"><div class="divider-line"></div><span class="divider-mark">imágenes</span><div class="divider-line"></div></div>
+
+<!-- GALERÍA FOTOGRAFÍA & ILUSTRACIÓN -->
+<section class="gallery-section" id="galeria">
+  <div class="section-header reveal">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Fotografía & <em>ilustración</em></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <p class="gallery-intro reveal">La fotografía y la ilustración son el cuaderno de campo. Lo que no cabe en un plano ni en un informe — la textura del tiempo, la luz de un momento, la interpretación de lo que los ojos ven.</p>
+
+  <div class="gallery-masonry">
+
+    <!-- Foto/Ilustración 1 — alta -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-2" style="height: 380px; border-radius: 2px;">
+        <!-- Reemplazar con fotografía o ilustración 1 -->
+        <!-- <img src="foto-1.jpg" style="width:100%;display:block;border-radius:2px;" alt="..."> -->
+      </div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Fotografía · 2024</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 2 — baja -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-3" style="height: 220px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Ilustración · 2025</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 3 — media -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-6" style="height: 300px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Fotografía · 2024</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 4 — baja -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-7" style="height: 200px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Ilustración · 2025</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 5 — alta -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-4" style="height: 420px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Fotografía · 2025</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 6 — media -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-9" style="height: 260px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Fotografía · 2024</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 7 -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-1" style="height: 240px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Ilustración · 2025</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 8 — alta -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-5" style="height: 360px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Fotografía · 2025</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+    <!-- Foto/Ilustración 9 -->
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder ph-8" style="height: 200px; border-radius: 2px;"></div>
+      <div class="gallery-caption">
+        <p class="gallery-caption-text">Ilustración · 2024</p>
+        <p class="gallery-caption-title">Título de la imagen</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-heading">Hablemos del <em>territorio</em></h2>
+      <p class="contact-sub">Abierta a colaboraciones, encargos y conversaciones sobre arquitectura, diseño, investigación o cualquier proyecto que tenga que ver con el lugar y la memoria.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:tu@email.com" class="contact-link">
+        <div>
+          <span class="cl-label">Correo</span>
+          <span class="cl-value">tu@email.com</span>
+        </div>
+        <span class="cl-arrow">→</span>
+      </a>
+      <a href="https://instagram.com/tuusuario" class="contact-link" target="_blank">
+        <div>
+          <span class="cl-label">Instagram</span>
+          <span class="cl-value">@tuusuario</span>
+        </div>
+        <span class="cl-arrow">→</span>
+      </a>
+      <a href="https://linkedin.com/in/tu-perfil" class="contact-link" target="_blank">
+        <div>
+          <span class="cl-label">LinkedIn</span>
+          <span class="cl-value">Tu Nombre</span>
+        </div>
+        <span class="cl-arrow">→</span>
+      </a>
+      <a href="tu-cv.pdf" class="contact-link" target="_blank">
+        <div>
+          <span class="cl-label">Currículum</span>
+          <span class="cl-value">Descargar CV</span>
+        </div>
+        <span class="cl-arrow">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-sig">Tu Nombre · UPB Medellín · 2025</span>
+    <span class="footer-concept">«Leer el territorio es también una forma de habitarlo»</span>
+  </div>
+</section>
+
+<script>
+  // ─── SCROLL REVEAL ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ─── NAV ACTIVE STATE ───
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.style.color = '';
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.style.color = 'var(--oxido)';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => navObserver.observe(s));
+
+  // ─── PARALLAX SUAVE HERO ───
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-right');
+    if (hero) {
+      const scroll = window.pageYOffset;
+      hero.style.transform = `translateY(${scroll * 0.15}px)`;
+    }
+  });
+</script>
+</body>
+</html>
